@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+@theme {
+  --font-inter: "Inter", "sans-serif";
+  --font-outfit: "Outfit", "sans-serif";
+
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-background: var(--bg-main);
+  --color-surface: var(--bg-surface);
+  --color-text-main: var(--text-main);
+  --color-text-muted: var(--text-muted);
+  
+  --shadow-premium: var(--shadow-main);
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+}
+
+:root {
+  --primary: #475569; /* Muted Slate-Blue */
+  --primary-dark: #334155;
+  --bg-main: #f8fafc;
+  --bg-surface: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --shadow-main: 0 20px 25px -5px rgb(0 0 0 / 0.05);
+}
+
+.dark {
+  --primary: #94a3b8;
+  --primary-dark: #cbd5e1;
+  --bg-main: #0f172a;
+  --bg-surface: #1e293b;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --shadow-main: 0 20px 25px -5px rgb(0 0 0 / 0.3);
+}
+
+@layer utilities {
+  .grad-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, #334155 100%);
+  }
+  .grad-blue {
+     background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  }
+  .grad-dark {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  }
+  .glass-card {
+    @apply bg-white/95 backdrop-blur-md border border-slate-200 shadow-xl;
+  }
+}
+
+@layer base {
+  html {
+  scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-inter);
+    background-color: var(--color-background);
+    color: var(--color-text-main);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+}
+
+.btn-primary {
+  @apply bg-blue-600 dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 active:scale-95 shadow-lg shadow-blue-500/20;
+}
+
+.btn-secondary {
+  @apply bg-slate-800 dark:bg-slate-700 hover:bg-slate-900 dark:hover:bg-slate-600 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 active:scale-95;
+}
+
+.input-field {
+  @apply w-full px-6 py-4 bg-white border border-slate-200 rounded-2xl text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500 transition-all;
+}
