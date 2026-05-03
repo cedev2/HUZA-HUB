@@ -14,12 +14,15 @@ import {
   Link as LinkIcon,
   Settings,
   BarChart3,
-  Globe
+  Globe,
+  Menu,
+  X
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Sidebar({ role }) {
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = React.useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -32,7 +35,7 @@ export default function Sidebar({ role }) {
       { name: 'Overview', path: '/admin', icon: LayoutDashboard },
       { name: 'Manage Schools', path: '/admin/schools', icon: Building2 },
       { name: 'Manage Companies', path: '/admin/companies', icon: Briefcase },
-      {name: 'Manage Students', path: '/admin/students', icon: Users },
+      { name: 'Manage Students', path: '/admin/students', icon: Users },
       { name: 'Manage Partners', path: '/admin/site-partners', icon: Globe },
       { name: 'Partnerships', path: '/admin/partnerships', icon: LinkIcon },
       { name: 'Analytics', path: '/admin/analytics', icon: BarChart3 },
@@ -61,10 +64,10 @@ export default function Sidebar({ role }) {
     ]
   };
 
-  const currentMenu = menuItems[role] || menuItems['student']; // Fallback to student if role is missing
+  const currentMenu = menuItems[role] || menuItems['student'];
 
-  return (
-    <div className="w-64 h-screen bg-slate-900 flex flex-col fixed left-0 top-0 shadow-2xl z-50 rounded-r-[2rem] border-r border-slate-800 transition-all duration-300">
+  const SidebarContent = () => (
+    <div className="w-64 h-full bg-slate-900 flex flex-col shadow-2xl rounded-r-[2rem] border-r border-slate-800 transition-all duration-300">
       <div className="p-8 flex items-center gap-3">
         <img src="/logo.png" alt="HUZA HUB Logo" className="h-8 w-auto brightness-200" />
         <h1 className="text-2xl font-bold font-outfit text-white tracking-tight">HUZA HUB</h1>
@@ -76,6 +79,7 @@ export default function Sidebar({ role }) {
             key={item.name}
             to={item.path}
             end
+            onClick={() => setIsOpen(false)}
             className={({ isActive }) => `
               relative flex items-center gap-3 px-4 py-3.5 rounded-2xl text-sm font-bold transition-all group overflow-hidden
               ${isActive 
@@ -110,5 +114,48 @@ export default function Sidebar({ role }) {
         </button>
       </div>
     </div>
+  );
+
+  return (
+    <>
+      {/* Mobile Toggle Button */}
+      <div className="fixed top-4 left-4 z-[60] md:hidden">
+        <button 
+          onClick={() => setIsOpen(!isOpen)}
+          className="p-3 bg-slate-900 text-white rounded-2xl shadow-xl border border-slate-800"
+        >
+          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </div>
+
+      {/* Desktop Sidebar */}
+      <aside className="hidden md:flex fixed left-0 top-0 h-screen z-50">
+        <SidebarContent />
+      </aside>
+
+      {/* Mobile Sidebar */}
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsOpen(false)}
+              className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[55] md:hidden"
+            />
+            <motion.aside 
+              initial={{ x: -300 }}
+              animate={{ x: 0 }}
+              exit={{ x: -300 }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="fixed left-0 top-0 h-screen z-[56] md:hidden"
+            >
+              <SidebarContent />
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

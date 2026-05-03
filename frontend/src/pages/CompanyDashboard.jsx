@@ -51,11 +51,11 @@ export default function CompanyDashboard() {
       <div className="absolute bottom-0 left-0 w-[40rem] h-[40rem] bg-blue-400/5 rounded-full blur-[100px] -ml-64 -mb-64 pointer-events-none" />
 
       <Sidebar role="company" />
-      <main className="flex-1 ml-64 p-10 relative z-10">
+      <main className="flex-1 md:ml-64 p-4 md:p-10 pt-20 md:pt-10 relative z-10">
         <motion.header 
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex items-center justify-between mb-12"
+          className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12"
         >
           <div>
             <h1 className="text-lg md:text-xl font-bold text-slate-900 font-outfit tracking-tight">Company Dashboard</h1>
@@ -76,7 +76,7 @@ export default function CompanyDashboard() {
           variants={staggerContainer}
           initial="initial"
           animate="animate"
-          className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 mb-12"
         >
           <motion.div variants={fadeInUp} className="glass-card p-8 rounded-[2.5rem] relative overflow-hidden group bg-white border border-slate-100">
             <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/5 rounded-bl-[4rem] group-hover:w-28 group-hover:h-28 transition-all"></div>

@@ -36,15 +36,15 @@ export default function AdminStudents() {
     <div className="flex bg-white min-h-screen font-inter transition-colors duration-300">
       <Sidebar role="admin" />
       
-      <main className="flex-1 ml-64 p-10">
+      <main className="flex-1 md:ml-64 p-4 md:p-10 pt-20 md:pt-10">
         <header className="mb-10">
-          <h1 className="text-3xl font-bold text-slate-900 font-outfit">Student Directory</h1>
-          <p className="text-slate-500">View and manage all registered student profiles</p>
+          <h1 className="text-2xl md:text-3xl font-bold text-slate-900 font-outfit">Student Directory</h1>
+          <p className="text-slate-500 text-sm md:text-base">View and manage all registered student profiles</p>
         </header>
 
         <div className="glass-card rounded-[2.5rem] bg-white border border-slate-100 overflow-hidden shadow-sm">
-          <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-white/40">
-            <div className="relative w-96">
+          <div className="p-6 border-b border-slate-100 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/40">
+            <div className="relative w-full md:w-96">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
               <input 
                 type="text" 
@@ -56,7 +56,8 @@ export default function AdminStudents() {
             </div>
           </div>
 
-          <table className="w-full text-left">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left min-w-[800px]">
             <thead>
               <tr className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] border-b border-slate-100">
                 <th className="px-8 py-5">Student</th>
@@ -124,6 +125,7 @@ export default function AdminStudents() {
               ))}
             </tbody>
           </table>
+          </div>
           
           {Array.isArray(filteredStudents) && visibleCount < filteredStudents.length && (
             <div className="p-6 text-center border-t border-slate-100 dark:border-slate-800">

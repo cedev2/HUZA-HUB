@@ -101,16 +101,19 @@ export default function Opportunities() {
     <div className="min-h-screen bg-slate-50 font-inter">
 
       {/* ── Navbar ── */}
-      <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 flex items-center justify-between px-6 md:px-16 py-4">
+      <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 flex items-center justify-between px-6 md:px-16 py-2">
         <Link to="/" className="flex items-center gap-3">
-          <img src="/logo.png" alt="HUZA HUB" className="h-9 w-auto" />
-          <div className="text-xl font-bold text-blue-600 font-outfit">HUZA HUB</div>
+          <img src="/logo.png" alt="HUZA HUB" className="h-24 w-auto" />
         </Link>
 
         <div className="hidden md:flex items-center gap-8">
-          <Link to="/" className="text-slate-600 font-medium hover:text-blue-600 transition-colors">Home</Link>
-          <Link to="/opportunities" className="text-blue-600 font-bold border-b-2 border-blue-600 pb-0.5">Opportunities</Link>
-          <a href="/#about" className="text-slate-600 font-medium hover:text-blue-600 transition-colors">About</a>
+          <a href="/" className="text-slate-600 font-medium hover:text-blue-600 transition-colors">Home</a>
+          <Link to="/opportunities" className="text-blue-600 font-bold hover:text-blue-600 transition-colors flex items-center gap-1.5 border-b-2 border-blue-600 pb-0.5">
+            <span className="w-2 h-2 bg-emerald-500 rounded-full inline-block"></span> Opportunities
+          </Link>
+          <a href="/#about" className="text-slate-600 font-medium hover:text-blue-600 transition-colors">About Us</a>
+          <a href="/#partners" className="text-slate-600 font-medium hover:text-blue-600 transition-colors">Partners</a>
+          <a href="/#testimonials" className="text-slate-600 font-medium hover:text-blue-600 transition-colors">Testimonials</a>
           <a href="/#contact" className="text-slate-600 font-medium hover:text-blue-600 transition-colors">Contact</a>
         </div>
 

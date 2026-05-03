@@ -54,7 +54,7 @@ export default function AdminDashboard() {
       <div className="absolute bottom-0 left-0 w-[40rem] h-[40rem] bg-blue-400/5 rounded-full blur-[100px] -ml-64 -mb-64 pointer-events-none" />
 
       <Sidebar role="admin" />
-      <main className="flex-1 ml-64 p-10 relative z-10">
+      <main className="flex-1 md:ml-64 p-4 md:p-10 pt-20 md:pt-10 relative z-10">
         <motion.header 
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -73,7 +73,7 @@ export default function AdminDashboard() {
           variants={staggerContainer}
           initial="initial"
           animate="animate"
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-12"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6 mb-12"
         >
           {[
             { label: 'Total Students', value: stats.students, icon: Users, color: 'text-blue-600', bg: 'bg-blue-50', shadow: 'shadow-blue-500/10', path: '/admin/students' },

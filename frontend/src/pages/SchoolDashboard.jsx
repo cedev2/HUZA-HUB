@@ -55,7 +55,7 @@ export default function SchoolDashboard() {
       <div className="absolute bottom-0 left-0 w-[40rem] h-[40rem] bg-blue-400/5 rounded-full blur-[100px] -ml-64 -mb-64 pointer-events-none" />
 
       <Sidebar role="school" />
-      <main className="flex-1 ml-64 p-10 relative z-10">
+      <main className="flex-1 md:ml-64 p-4 md:p-10 pt-20 md:pt-10 relative z-10">
         <motion.header 
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
@@ -69,7 +69,7 @@ export default function SchoolDashboard() {
           variants={staggerContainer}
           initial="initial"
           animate="animate"
-          className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 mb-12"
         >
           {statItems.map((stat, i) => (
             <motion.div 

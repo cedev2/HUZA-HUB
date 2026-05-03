@@ -429,11 +429,11 @@ export default function StudentDashboard() {
       <div className="absolute bottom-0 left-0 w-[40rem] h-[40rem] bg-emerald-400/5 rounded-full blur-[100px] -ml-64 -mb-64 pointer-events-none" />
 
       <Sidebar role="student" />
-      <main className="flex-1 ml-64 p-10 relative z-10">
+      <main className="flex-1 md:ml-64 p-4 md:p-10 pt-20 md:pt-10 relative z-10">
         <motion.header
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="flex items-center justify-between mb-10"
+          className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10"
         >
           <div>
             <h1 className="text-xl font-bold text-slate-900 font-outfit tracking-tight">Explore Internships</h1>

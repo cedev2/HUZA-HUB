@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Briefcase, Building2, GraduationCap, CheckCircle, ChevronRight, ArrowRight, ShieldCheck, Zap, Globe, MessageSquare, Mail, Phone, MapPin, Send, Users, Clock, DollarSign } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Briefcase, Building2, GraduationCap, CheckCircle, ChevronRight, ArrowRight, ShieldCheck, Zap, Globe, MessageSquare, Mail, Phone, MapPin, Send, Users, Clock, DollarSign, Menu, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import api from '../utils/api';
 
 const fadeInUp = {
@@ -16,10 +16,80 @@ const staggerContainer = {
   whileInView: { transition: { staggerChildren: 0.15 } }
 };
 
+const TypewriterHeading = () => {
+  const [line1, setLine1] = useState('');
+  const [line2, setLine2] = useState('');
+  const [line3, setLine3] = useState('');
+  const [showCursor, setShowCursor] = useState(true);
+
+  const lines = ["Learning", "FUTURE", "AI-Ready!"];
+
+  useEffect(() => {
+    let isMounted = true;
+    
+    const runSequence = async () => {
+      while (isMounted) {
+        // Clear all
+        setLine1(''); setLine2(''); setLine3('');
+        
+        // Type line 1
+        for (let i = 0; i <= lines[0].length; i++) {
+          if (!isMounted) return;
+          setLine1(lines[0].slice(0, i));
+          await new Promise(r => setTimeout(r, 100));
+        }
+        await new Promise(r => setTimeout(r, 500));
+
+        // Type line 2
+        for (let i = 0; i <= lines[1].length; i++) {
+          if (!isMounted) return;
+          setLine2(lines[1].slice(0, i));
+          await new Promise(r => setTimeout(r, 100));
+        }
+        await new Promise(r => setTimeout(r, 500));
+
+        // Type line 3
+        for (let i = 0; i <= lines[2].length; i++) {
+          if (!isMounted) return;
+          setLine3(lines[2].slice(0, i));
+          await new Promise(r => setTimeout(r, 100));
+        }
+        
+        // Pause at end before restart
+        await new Promise(r => setTimeout(r, 3000));
+      }
+    };
+
+    runSequence();
+    return () => { isMounted = false; };
+  }, []);
+
+  useEffect(() => {
+    const cursorInterval = setInterval(() => setShowCursor(prev => !prev), 500);
+    return () => clearInterval(cursorInterval);
+  }, []);
+
+  const Cursor = () => <span className={`${showCursor ? 'opacity-100' : 'opacity-0'} transition-opacity duration-100 text-blue-500`}>|</span>;
+
+  return (
+    <>
+      {line1}<Cursor /> <br />
+      <span className="text-blue-600 underline decoration-blue-100 underline-offset-8">
+        {line2}{line2 && <Cursor />}
+      </span> <br />
+      {line3}{line3 && <Cursor />}
+    </>
+  );
+};
+
 export default function Landing() {
   const [status, setStatus] = useState({ type: '', message: '' });
   const [internships, setInternships] = useState([]);
   const [sitePartners, setSitePartners] = useState([]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const storedUser = localStorage.getItem('user');
+  const user = storedUser && storedUser !== "undefined" ? JSON.parse(storedUser) : null;
 
   useEffect(() => {
     api.get('/internships')
@@ -41,16 +111,14 @@ export default function Landing() {
              backgroundPosition: 'center'
            }}>
       </div>
-
-
       {/* Navbar */}
-      <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 flex items-center justify-between px-6 md:px-16 py-5">
+      <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 flex items-center justify-between px-6 md:px-16 py-2">
         <div className="flex items-center gap-3">
-          <img src="/logo.png" alt="HUZA HUB Logo" className="h-10 w-auto" />
-          <div className="text-2xl font-bold text-blue-600 font-outfit">HUZA HUB</div>
+          <img src="/logo.png" alt="HUZA HUB Logo" className="h-16 md:h-24 w-auto" />
         </div>
 
-        <div className="hidden md:flex items-center gap-8">
+        {/* Desktop Menu */}
+        <div className="hidden lg:flex items-center gap-8">
           <a href="#" className="text-blue-600 font-bold hover:text-blue-700 transition-colors">Home</a>
           <Link to="/opportunities" className="text-slate-600 font-medium hover:text-blue-600 transition-colors flex items-center gap-1.5">
             <span className="w-2 h-2 bg-emerald-500 rounded-full inline-block"></span> Opportunities
@@ -61,11 +129,60 @@ export default function Landing() {
           <a href="#contact" className="text-slate-600 font-medium hover:text-blue-600 transition-colors">Contact</a>
         </div>
 
-        <div className="flex items-center gap-6">
-          <Link to="/login" className="text-slate-700 font-bold hover:text-blue-600 transition-colors">Log in</Link>
-          <Link to="/register" className="bg-blue-50 text-blue-600 font-bold px-6 py-2.5 rounded-xl hover:bg-blue-100 transition-all active:scale-95 shadow-sm border border-blue-100">Sign up</Link>
+        <div className="flex items-center gap-4 md:gap-6">
+          <div className="hidden sm:flex items-center gap-6">
+            {user ? (
+              <Link to={`/${user.role}`} className="bg-blue-600 text-white font-bold px-6 py-2.5 rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20">
+                Dashboard
+              </Link>
+            ) : (
+              <>
+                <Link to="/login" className="text-slate-700 font-bold hover:text-blue-600 transition-colors">Log in</Link>
+                <Link to="/register" className="bg-blue-600 text-white font-bold px-6 py-2.5 rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-500/20">Sign up</Link>
+              </>
+            )}
+          </div>
+          
+          {/* Mobile Menu Toggle */}
+          <button 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="lg:hidden p-2 text-slate-600 hover:text-blue-600 transition-colors"
+          >
+            {isMenuOpen ? <X className="w-8 h-8" /> : <Menu className="w-8 h-8" />}
+          </button>
         </div>
       </nav>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="fixed top-[80px] left-0 w-full bg-white shadow-2xl z-[49] border-b border-slate-100 p-8 lg:hidden"
+          >
+            <div className="flex flex-col gap-6 text-center">
+              <a href="#" onClick={() => setIsMenuOpen(false)} className="text-xl font-bold text-blue-600">Home</a>
+              <Link to="/opportunities" onClick={() => setIsMenuOpen(false)} className="text-xl font-bold text-slate-700">Opportunities</Link>
+              <a href="#about" onClick={() => setIsMenuOpen(false)} className="text-xl font-bold text-slate-700">About Us</a>
+              <a href="#partners" onClick={() => setIsMenuOpen(false)} className="text-xl font-bold text-slate-700">Partners</a>
+              <a href="#contact" onClick={() => setIsMenuOpen(false)} className="text-xl font-bold text-slate-700">Contact</a>
+              
+              <div className="pt-6 border-t border-slate-100 flex flex-col gap-4 sm:hidden">
+                {user ? (
+                  <Link to={`/${user.role}`} onClick={() => setIsMenuOpen(false)} className="bg-blue-600 text-white font-bold py-4 rounded-2xl">Dashboard</Link>
+                ) : (
+                  <>
+                    <Link to="/login" onClick={() => setIsMenuOpen(false)} className="text-slate-700 font-bold py-4 bg-slate-50 rounded-2xl">Log in</Link>
+                    <Link to="/register" onClick={() => setIsMenuOpen(false)} className="bg-blue-600 text-white font-bold py-4 rounded-2xl">Sign up</Link>
+                  </>
+                )}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Hero Section */}
       <section className="relative pt-44 pb-32 px-6 md:px-16 bg-white overflow-hidden">
@@ -97,9 +214,7 @@ export default function Landing() {
               transition={{ delay: 0.1 }}
               className="text-5xl md:text-7xl font-black text-slate-900 mb-8 font-outfit leading-[1.1] tracking-tight"
             >
-              Learning <br />
-              <span className="text-blue-600 underline decoration-blue-100 underline-offset-8">FUTURE</span> <br />
-              AI-Ready!
+              <TypewriterHeading />
             </motion.h1>
 
             <motion.p 

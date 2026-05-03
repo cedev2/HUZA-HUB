@@ -55,11 +55,11 @@ export default function AdminCompanies() {
     <div className="flex bg-white min-h-screen font-inter transition-colors duration-300">
       <Sidebar role="admin" />
       
-      <main className="flex-1 ml-64 p-10">
-        <header className="flex items-center justify-between mb-10">
+      <main className="flex-1 md:ml-64 p-4 md:p-10 pt-20 md:pt-10">
+        <header className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
           <div>
-            <h1 className="text-3xl font-bold text-slate-900 font-outfit">Company Management</h1>
-            <p className="text-slate-500">Onboard and manage corporate partners</p>
+            <h1 className="text-2xl md:text-3xl font-bold text-slate-900 font-outfit">Company Management</h1>
+            <p className="text-slate-500 text-sm md:text-base">Onboard and manage corporate partners</p>
           </div>
           <button 
             onClick={() => setShowAddModal(true)}
@@ -81,7 +81,8 @@ export default function AdminCompanies() {
             </div>
           </div>
 
-          <table className="w-full text-left">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left min-w-[900px]">
             <thead>
               <tr className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] border-b border-slate-100">
                 <th className="px-8 py-5">Company</th>
@@ -150,6 +151,7 @@ export default function AdminCompanies() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
 
         {/* Add Company Modal */}
